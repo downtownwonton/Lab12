@@ -49,7 +49,7 @@ public class FamilyTree
             // Now, recurse. Check all children of this node.
             for (TreeNode child: children)
             {
-            	if (!child.getNodeWithName(targetName).equals(null))
+            	if (child.getNodeWithName(targetName) != null)
             		return child;
                 // If child.getNodeWithName(targetName) returns a non-null node,
                 // then that's the node we're looking for. Return it.
@@ -160,7 +160,7 @@ public class FamilyTree
 		else
 		{
 			parentNode = root.getNodeWithName(parent);
-			if (parentNode == null) throw new TreeException("no.");//There's a method in Node that searches for a named node. 
+			if (parentNode == null) throw new TreeException("invalid parent name.");//There's a method in Node that searches for a named node. 
 			//??? If the parent node wasn't found, there must have been something wrong in the 
 				//data file. Throw an exception.
 		}
