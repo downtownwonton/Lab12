@@ -49,8 +49,8 @@ public class FamilyTree
             // Now, recurse. Check all children of this node.
             for (TreeNode child: children)
             {
-            	if (!child.getNodeWithName(targetName).equals(null))
-            		return child;
+            	if (child.getNodeWithName(targetName) != null)
+            		return child.getNodeWithName(targetName);
                 // If child.getNodeWithName(targetName) returns a non-null node,
                 // then that's the node we're looking for. Return it.
             }
@@ -139,10 +139,10 @@ public class FamilyTree
 		// Extract parent and array of children.
 		int colonIndex = line.indexOf(":"); // should be the index of the colon in line.
 		if (colonIndex < 0)
-			 throw new TreeException("no.");
-		String parent = line.substring(colonIndex); //The substring of line that starts at char #0 and ends just before colonIndex. Check the API for 
+			 throw new TreeException("invalid colon position");
+		String parent = line.substring(0,colonIndex); //The substring of line that starts at char #0 and ends just before colonIndex. Check the API for 
 				           //class java.util.String, method substring(), if you need guidance.
-		String childrenString = line.substring(colonIndex, line.length()); //The substring of line that starts just after colonIndex and goes through the end of
+		String childrenString = line.substring(colonIndex+1, line.length()); //The substring of line that starts just after colonIndex and goes through the end of
 				                   //the line. You'll use a different version of substring().
 		String[] childrenArray = childrenString.split(","); //Call childrenString.split(). Check the API for details. The result will be an array
 				                    //of strings, with the separating commas thrown away.
@@ -160,14 +160,14 @@ public class FamilyTree
 		else
 		{
 			parentNode = root.getNodeWithName(parent);
-			if (parentNode == null) throw new TreeException("no.");//There's a method in Node that searches for a named node. 
+			if (parentNode == null) throw new TreeException("invalid parent name " + parent);//There's a method in Node that searches for a named node. 
 			//??? If the parent node wasn't found, there must have been something wrong in the 
 				//data file. Throw an exception.
 		}
 		for (int i = 0; i < childrenArray.length; i++)
 		{
 			TreeNode child = new TreeNode(childrenArray[i]);
-			parentNode.children.add(child);
+			parentNode.addChild(child);
 		}
 		// Add child nodes to parentNode.
 		//?? For each name in childrenArray, create a new node and add that node to parentNode.
