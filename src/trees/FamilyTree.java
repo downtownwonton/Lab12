@@ -34,7 +34,7 @@ public class FamilyTree
             // Add childNode to this node's children list. Also
             // set childNode's parent to this node.
         	children.add(childNode);
-        	 parent = childNode.parent;
+        	 childNode.parent = this;
         }
         
         
@@ -44,9 +44,9 @@ public class FamilyTree
         {
             // Does this node have the target name?
             if (name.equals(targetName))
-                return parent;
+                return this;
                     
-            // No, recurse. Check all children of this node.
+            // Now, recurse. Check all children of this node.
             for (TreeNode child: children)
             {
             	if (!child.getNodeWithName(targetName).equals(null))
@@ -67,10 +67,10 @@ public class FamilyTree
             ArrayList<TreeNode> ancestors = new ArrayList<>();
             for (TreeNode child : children)
             {
-            	while (parent.parent != null)
+            	while (child.parent != null)
             	{
-            		ancestors.add(parent);
-            		parent = parent.parent;
+            		ancestors.add(child.parent);
+            		child = child.parent;
             		
             	}
             }
